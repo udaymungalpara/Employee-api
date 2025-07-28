@@ -1,0 +1,14 @@
+# Google App Engine generated folder
+appengine-generated/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+*.test
+
+go.work
+go.work.sum
+.env
+
