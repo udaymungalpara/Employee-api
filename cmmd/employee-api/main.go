@@ -17,7 +17,7 @@ func main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("employee"))
+		w.Write([]byte("employee are"))
 
 	})
 
@@ -27,8 +27,8 @@ func main() {
 		Addr:    cfg.Add,
 		Handler: router,
 	}
-	err := server.ListenAndServe()
 	fmt.Println("strated server")
+	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal("Failed to start server")
 	}
