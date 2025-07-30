@@ -22,6 +22,13 @@ func New() http.HandlerFunc {
 			return
 		}
 
+		if err != nil {
+			respones.WriteJson(w, http.StatusBadRequest, respones.JsonError(err))
+			return
+		}
+
+		//validate request
+
 		respones.WriteJson(w, http.StatusOK, map[string]string{
 			"status": "ok",
 		})
