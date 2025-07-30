@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/udaymungalpara/employee-api/handlers/employee"
 	"github.com/udaymungalpara/employee-api/internal/config"
-	"github.com/udaymungalpara/employee-api/internal/handlers/employee"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 
 	//Handler
 
-	router.HandleFunc("GET /api/employee", employee.New())
+	router.HandleFunc("POST /api/emp", employee.New())
 
 	//server setup
 
