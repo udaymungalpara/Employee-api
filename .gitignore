@@ -12,6 +12,6 @@ go.work
 go.work.sum
 .env
 
-storage
+/storage
 
 /config
