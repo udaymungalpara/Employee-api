@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	types "github.com/udaymungalpara/employee-api/internal/Types"
 	"github.com/udaymungalpara/employee-api/internal/utils/respones"
 )
@@ -28,6 +29,12 @@ func New() http.HandlerFunc {
 		}
 
 		//validate request
+		if err := validator.New().Struct(employee); err != nil {
+
+			verr := err.(validator.ValidationErrors)
+			respones.WriteJson(w, http.StatusBadRequest, respones.ValidationError(verr))
+			return
+		}
 
 		respones.WriteJson(w, http.StatusOK, map[string]string{
 			"status": "ok",
