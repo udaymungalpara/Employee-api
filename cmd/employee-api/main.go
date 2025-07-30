@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/udaymungalpara/employee-api/internal/config"
+	"github.com/udaymungalpara/employee-api/internal/handlers/employee"
 )
 
 func main() {
@@ -22,10 +23,9 @@ func main() {
 
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("employee"))
+	//Handler
 
-	})
+	router.HandleFunc("GET /api/employee", employee.New())
 
 	//server setup
 
