@@ -69,9 +69,6 @@ func (s *Sqlite) GetbyId(id int) (types.Employee, error) {
 	defer stmt.Close()
 
 	res := stmt.QueryRow(id)
-	if err != nil {
-		return types.Employee{}, err
-	}
 
 	var emp types.Employee
 
