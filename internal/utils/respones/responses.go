@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
+	///types "github.com/udaymungalpara/employee-api/internal/Types"
 )
 
 type ErrorResponse struct {
@@ -71,3 +72,5 @@ func DoneJson(id int64) DoneResponse {
 	}
 
 }
+
+//func GetEmp(e *types.Employee)

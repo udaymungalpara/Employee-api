@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	types "github.com/udaymungalpara/employee-api/internal/Types"
@@ -37,17 +38,33 @@ func New(storage storage.Storage) http.HandlerFunc {
 			return
 		}
 
-		id,err:=storage.CreateEmp(employee.Name,employee.Email,employee.Gender,employee.Department,employee.Age)
+		id, err := storage.CreateEmp(employee.Name, employee.Email, employee.Gender, employee.Department, employee.Age)
 
-		if(err!=nil){
-			respones.WriteJson(w,http.StatusInternalServerError,respones.JsonError(err))
+		if err != nil {
+			respones.WriteJson(w, http.StatusInternalServerError, respones.JsonError(err))
 			return
 		}
-		
 
 		respones.WriteJson(w, http.StatusOK, respones.DoneJson(id))
 
 	}
-	
 
+}
+
+func GetId(s storage.Storage) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var employee types.Employee
+
+		getid := r.PathValue("id")
+
+		id, _ := strconv.Atoi(getid)
+
+		employee, err := storage.Storage.GetbyId(s, id)
+		if err != nil {
+			respones.WriteJson(w, http.StatusInternalServerError, respones.JsonError(err))
+			return
+		}
+		respones.WriteJson(w, http.StatusOK, &employee)
+
+	}
 }

@@ -5,6 +5,7 @@ import (
 
 	_ "modernc.org/sqlite"
 
+	types "github.com/udaymungalpara/employee-api/internal/Types"
 	"github.com/udaymungalpara/employee-api/internal/config"
 )
 
@@ -55,5 +56,30 @@ func (s *Sqlite) CreateEmp(name string, email string, gender string, department 
 	id, _ := res.LastInsertId()
 
 	return id, nil
+
+}
+
+func (s *Sqlite) GetbyId(id int) (types.Employee, error) {
+	stmt, err := s.db.Prepare("SELECT * FROM employee by WHERE id=?")
+
+	if err != nil {
+		return types.Employee{}, err
+	}
+
+	defer stmt.Close()
+
+	res := stmt.QueryRow(id)
+	if err != nil {
+		return types.Employee{}, err
+	}
+
+	var emp types.Employee
+
+	err = res.Scan(&emp.Id, &emp.Name, &emp.Email, &emp.Gender, &emp.Department, &emp.Age)
+	if err != nil {
+		return types.Employee{}, err
+	}
+
+	return emp, nil
 
 }
