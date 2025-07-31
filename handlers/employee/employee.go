@@ -8,10 +8,11 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	types "github.com/udaymungalpara/employee-api/internal/Types"
+	"github.com/udaymungalpara/employee-api/internal/storage"
 	"github.com/udaymungalpara/employee-api/internal/utils/respones"
 )
 
-func New() http.HandlerFunc {
+func New(storage storage.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		var employee types.Employee
@@ -36,10 +37,17 @@ func New() http.HandlerFunc {
 			return
 		}
 
-		respones.WriteJson(w, http.StatusOK, map[string]string{
-			"status": "ok",
-		})
+		id,err:=storage.CreateEmp(employee.Name,employee.Email,employee.Gender,employee.Department,employee.Age)
+
+		if(err!=nil){
+			respones.WriteJson(w,http.StatusInternalServerError,respones.JsonError(err))
+			return
+		}
+		
+
+		respones.WriteJson(w, http.StatusOK, respones.DoneJson(id))
 
 	}
+	
 
 }

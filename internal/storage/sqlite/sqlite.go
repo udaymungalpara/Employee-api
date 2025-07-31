@@ -35,3 +35,9 @@ func New(cfg *config.Config) (*Sqlite, error) {
 		db: db,
 	}, nil
 }
+
+func (s *Sqlite) CreateEmp(name string, email string, gender string, department string, age int) (int, error) {
+
+	return 0, nil
+
+}

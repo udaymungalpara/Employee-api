@@ -14,6 +14,11 @@ type ErrorResponse struct {
 	Error  string `json:"error"`
 }
 
+type DoneResponse struct {
+	Status string `json:"status"`
+	Id     int    `json:"id"`
+}
+
 const (
 	StatusOk    = "ok"
 	StatusError = "error"
@@ -55,6 +60,14 @@ func ValidationError(errs validator.ValidationErrors) ErrorResponse {
 	return ErrorResponse{
 		Status: StatusError,
 		Error:  strings.Join(errmsg, ","),
+	}
+
+}
+func DoneJson(id int) DoneResponse {
+
+	return DoneResponse{
+		Status: StatusOk,
+		Id:     id,
 	}
 
 }

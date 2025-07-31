@@ -22,7 +22,7 @@ func main() {
 
 	cfg := config.ConfigLoad()
 
-	_, err := sqlite.New(cfg)
+	storage, err := sqlite.New(cfg)
 	if err != nil {
 		log.Fatal("database error", err)
 	}
@@ -31,7 +31,7 @@ func main() {
 
 	//Handler
 
-	router.HandleFunc("POST /api/emp", employee.New())
+	router.HandleFunc("POST /api/emp", employee.New(storage))
 
 	//server setup
 
