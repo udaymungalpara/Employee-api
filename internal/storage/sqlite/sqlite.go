@@ -36,8 +36,24 @@ func New(cfg *config.Config) (*Sqlite, error) {
 	}, nil
 }
 
-func (s *Sqlite) CreateEmp(name string, email string, gender string, department string, age int) (int, error) {
+func (s *Sqlite) CreateEmp(name string, email string, gender string, department string, age int) (int64, error) {
 
-	return 0, nil
+	stmt, err := s.db.Prepare("INSERT INTO employee (name,email,gender,department,age) VALUES (? ,? ,? , ? ,?)")
+
+	if err != nil {
+		return 0, err
+	}
+
+	defer stmt.Close()
+
+	res, err := stmt.Exec(name, email, gender, department, age)
+
+	if err != nil {
+		return 0, err
+	}
+
+	id, _ := res.LastInsertId()
+
+	return id, nil
 
 }

@@ -16,7 +16,7 @@ type ErrorResponse struct {
 
 type DoneResponse struct {
 	Status string `json:"status"`
-	Id     int    `json:"id"`
+	Id     int64  `json:"id"`
 }
 
 const (
@@ -63,7 +63,7 @@ func ValidationError(errs validator.ValidationErrors) ErrorResponse {
 	}
 
 }
-func DoneJson(id int) DoneResponse {
+func DoneJson(id int64) DoneResponse {
 
 	return DoneResponse{
 		Status: StatusOk,

@@ -1,7 +1,7 @@
 package types
 
 type Employee struct {
-	Id         int
+	Id         int64
 	Name       string `validate:"required"`
 	Email      string `validate:"required,email"`
 	Gender     string `validate:"oneof=male female prefer_not_to"`
