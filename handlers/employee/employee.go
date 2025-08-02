@@ -83,3 +83,24 @@ func GetList(s storage.Storage) http.HandlerFunc {
 
 	}
 }
+
+func DeleteById(s storage.Storage) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("id")
+
+		eid, err := strconv.Atoi(id)
+
+		if err != nil {
+			respones.WriteJson(w, http.StatusBadRequest, respones.JsonError(err))
+		}
+
+		err = storage.Storage.DeleteById(s, eid)
+		
+		if err != nil {
+			respones.WriteJson(w, http.StatusInternalServerError, respones.JsonError(err))
+			return
+		}
+		respones.WriteJson(w, http.StatusOK, map[string]string{"id": id, "Respone": "Employee Deleted"})
+
+	}
+}

@@ -37,6 +37,8 @@ func main() {
 
 	router.HandleFunc("GET /api/employees", employee.GetList(storage))
 
+	router.HandleFunc("DELETE /api/emp/{id}", employee.DeleteById(storage))
+
 	//server setup
 
 	server := http.Server{

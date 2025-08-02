@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "modernc.org/sqlite"
 
@@ -20,6 +21,7 @@ func New(cfg *config.Config) (*Sqlite, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS employee(
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			name TEXT,
@@ -60,7 +62,7 @@ func (s *Sqlite) CreateEmp(name string, email string, gender string, department 
 }
 
 func (s *Sqlite) GetbyId(id int) (types.Employee, error) {
-	stmt, err := s.db.Prepare("SELECT * FROM employee by WHERE id=?")
+	stmt, err := s.db.Prepare("SELECT * FROM employee WHERE id=?")
 
 	if err != nil {
 		return types.Employee{}, err
@@ -108,5 +110,30 @@ func (s *Sqlite) GetList() ([]types.Employee, error) {
 	}
 
 	return employee, nil
+
+}
+
+func (s *Sqlite) DeleteById(id int) error {
+
+	stmt := `DELETE FROM employee WHERE id =$1`
+
+	res, err := s.db.Exec(stmt, id)
+
+	if err != nil {
+		return err
+	}
+	var a int64
+	a = 0
+	a, err = res.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+	if a == 0 {
+		return fmt.Errorf("no record found with this id")
+
+	}
+
+	return nil
 
 }
