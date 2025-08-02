@@ -68,3 +68,18 @@ func GetId(s storage.Storage) http.HandlerFunc {
 
 	}
 }
+
+func GetList(s storage.Storage) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		emps, err := storage.Storage.GetList(s)
+
+		if err != nil {
+			respones.WriteJson(w, http.StatusInternalServerError, respones.JsonError(err))
+			return
+		}
+
+		respones.WriteJson(w, http.StatusOK, &emps)
+
+	}
+}

@@ -80,3 +80,33 @@ func (s *Sqlite) GetbyId(id int) (types.Employee, error) {
 	return emp, nil
 
 }
+
+func (s *Sqlite) GetList() ([]types.Employee, error) {
+
+	employee := []types.Employee{}
+	stmt, err := s.db.Prepare(`SELECT * FROM employee`)
+
+	if err != nil {
+		return employee, err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+
+	if err != nil {
+		return employee, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var emp types.Employee
+		err := rows.Scan(&emp.Id, &emp.Name, &emp.Email, &emp.Gender, &emp.Department, &emp.Age)
+
+		if err != nil {
+			return employee, err
+		}
+		employee = append(employee, emp)
+	}
+
+	return employee, nil
+
+}
