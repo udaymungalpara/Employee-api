@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
@@ -31,13 +30,13 @@ func main() {
 
 	//Handler
 
-	router.HandleFunc("POST /api/emp", employee.New(storage))
+	router.HandleFunc("POST /api/employee", employee.New(storage))
 
-	router.HandleFunc("GET /api/emp/{id}", employee.GetId(storage))
+	router.HandleFunc("GET /api/employee/{id}", employee.GetId(storage))
 
 	router.HandleFunc("GET /api/employees", employee.GetList(storage))
 
-	router.HandleFunc("DELETE /api/emp/{id}", employee.DeleteById(storage))
+	router.HandleFunc("DELETE /api/employee/{id}", employee.DeleteById(storage))
 
 	//server setup
 
@@ -51,9 +50,10 @@ func main() {
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
-		fmt.Println("strated server")
+		slog.Info("Started server", "addr", cfg.Add)
 		err := server.ListenAndServe()
 		if err != nil {
+			slog.Error("Failed to start server", "error", err)
 			log.Fatal("Failed to start server")
 		}
 	}()
